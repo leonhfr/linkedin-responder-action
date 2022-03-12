@@ -1,11 +1,39 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: LinkedIn Responder
+description: Github action to automatically answer messages on LinkedIn
+author: leonhfr
 inputs:
-  milliseconds: # change this
+  username:
     required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+    description: LinkedIn username (email)
+  password:
+    required: true
+    description: LinkedIn password
+  message:
+    required: false
+    description: Message. Either the path or the message must be provided.
+  path:
+    required: false
+    description: Path to the message file. Either the path or the message must be provided.
+  trim:
+    required: false
+    description: Trim message
+    default: 'true'
+  inmailsOnly:
+    required: false
+    description: Only respond to inmails
+    default: 'true'
+  since:
+    required: false
+    description: Only respond to new conversations started since N minutes
+    default: '60'
+  limit:
+    required: false
+    description: Only process latest N conversations
+    default: '20'
+  dryRun:
+    required: false
+    description: Only log actions, do not actually respond to messages.
+    default: 'false'
 runs:
-  using: 'node16'
-  main: 'dist/index.js'
+  using: node16
+  main: dist/index.js

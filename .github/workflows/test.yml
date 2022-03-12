@@ -21,4 +21,16 @@ jobs:
       - uses: actions/checkout@v2
       - uses: ./
         with:
-          milliseconds: 1000
+          username: ${{ secrets.LINKEDIN_USERNAME }}
+          password: ${{ secrets.LINKEDIN_PASSWORD }}
+          message: |
+            Hello,
+
+            this is a multiline text that will be used to respond to LinkedIn messages.
+
+            Best
+          # path: ./message.md
+          trim: true
+          inmailsOnly: true
+          since: 600
+          dryRun: true # important!
