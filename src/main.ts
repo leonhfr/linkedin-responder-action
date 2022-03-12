@@ -1,19 +1,37 @@
-import * as core from '@actions/core'
-import {wait} from './wait'
+import * as core from '@actions/core';
+
+import Client from './Client';
+import { newConfig } from './config';
+import { getConversations } from './conversation';
+import { sendMessages } from './message';
+import { censorEmail } from './utils';
 
 async function run(): Promise<void> {
   try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`) // debug is only output if you set the secret `ACTIONS_STEP_DEBUG` to true
+    const config = newConfig();
+    if (config instanceof Error) {
+      core.debug(`could not build configuration`);
+      throw config;
+    }
+    core.debug(
+      `config ${JSON.stringify({
+        ...config,
+        username: censorEmail(config.username),
+        password: '***',
+      })}`
+    );
 
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
+    core.debug(`connecting to LinkedIn`);
+    const client = await Client.create(config.username, config.password);
+    const conversations = await getConversations(client, config);
+    const sent = await sendMessages(client, config, conversations);
 
-    core.setOutput('time', new Date().toTimeString())
+    core.setOutput('sent', sent);
   } catch (error) {
-    if (error instanceof Error) core.setFailed(error.message)
+    if (error instanceof Error) {
+      core.setFailed(error.message);
+    }
   }
 }
 
-run()
+run();

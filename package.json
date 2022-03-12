@@ -1,8 +1,8 @@
 {
-  "name": "typescript-action",
+  "name": "linkedin-responder-action",
   "version": "0.0.0",
   "private": true,
-  "description": "TypeScript template action",
+  "description": "Github action to automatically answer messages on LinkedIn ",
   "main": "lib/main.js",
   "scripts": {
     "build": "tsc",
@@ -11,23 +11,29 @@
     "lint": "eslint src/**/*.ts",
     "package": "ncc build --source-map --license licenses.txt",
     "test": "jest",
-    "all": "npm run build && npm run format && npm run lint && npm run package && npm test"
+    "all": "npm run build ; npm run format && npm run package && npm test"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions/typescript-action.git"
+    "url": "git+https://github.com/leonhfr/linkedin-responder-actiongit"
   },
   "keywords": [
     "actions",
     "node",
-    "setup"
+    "linkedin",
+    "responder"
   ],
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.6.0"
+    "@actions/core": "^1.6.0",
+    "email-validator": "^2.0.4",
+    "linkedin-private-api": "^1.1.1",
+    "moment": "^2.29.1"
   },
   "devDependencies": {
+    "@faker-js/faker": "^6.0.0-beta.0",
+    "@types/jest": "^27.4.1",
     "@types/node": "^16.10.5",
     "@typescript-eslint/parser": "^5.8.1",
     "@vercel/ncc": "^0.31.1",
